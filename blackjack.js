@@ -1,17 +1,40 @@
-let firstCard = randomCard();
-let secondCard = randomCard();
-let cards = [firstCard, secondCard];
-let sum = firstCard + secondCard;
+let cards = [];
+let sum = 0;
 let message = "";
 let hasBlackJack = false;
-let isAlive = true;
+let isAlive = false;
 let cardEl = document.querySelector("#card-el").textContent;
 
+let player = {
+    name: "Karan",
+    credits: 100
+};
+document.querySelector("#player-el").textContent = player.name + ": $" + player.credits;
+
 function randomCard() {
-    return Math.floor(Math.random() * 13) + 1;
+    const random = Math.floor(Math.random() * 13) + 1;
+    if(random === 1) {
+        return 11;
+    }
+    else if(random > 10) {
+        return 10;
+    }
+    else {
+        return random;
+    }
 }
 
 function startGame() {
+    //Here you are starting the game so all the essential variables for the game 
+    //will only be declared when start game button is clicked
+    isAlive = true;
+    let firstCard = randomCard();
+    let secondCard = randomCard();
+    cards = [firstCard, secondCard];
+    sum = firstCard + secondCard;
+    player.credits -= 2;
+    document.querySelector("#player-el").textContent = player.name + ": $" + player.credits;
+
     renderGame();
 }
 
@@ -33,6 +56,8 @@ function renderGame() {
         hasBlackJack = true;
         document.querySelector("#new-card-el").style.display = "none";
         document.querySelector("#new-game-el").style.display = "inline-block";
+        player.credits += 10;
+        document.querySelector("#player-el").textContent = player.name + ": $" + player.credits;
     }
     else {
         message = "You're out of the game!";
@@ -53,13 +78,8 @@ function newCard() {
 }
 
 function newGame() {
-    firstCard = randomCard();
-    secondCard = randomCard();
-    cards = [firstCard, secondCard];
-    sum = firstCard + secondCard;
     message = "";
-    hasBlackJack = false;
-    isAlive = true;
+    hasBlackJack = false; 
     cardEl = document.querySelector("#card-el").textContent;
     startGame();
 }
